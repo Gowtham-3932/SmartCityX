@@ -1,0 +1,8 @@
+id,title,description,category,location,reportedAt,status,assignedTeam,solvedAt
+1021,"Water leakage","Pipe leaking beside main road","Water","MVP","2026-10-14 09:10","NEW","Not assigned","-"
+1020,"Pothole","Large pothole near bus stop","Roads","Gajuwaka","2026-10-14 09:20","PROGRESS","Road Maintenance Team","-"
+1019,"Street light","Street light is not working","Electricity","NAD","2026-10-14 08:40","SOLVED","Electrical Team","2026-10-14 10:00"
+1018,"Garbage overflow","Garbage bins are full","Garbage","Madhurawada","2026-10-14 08:15","NEW","Not assigned","-"
+1017,"Traffic signal failure","Signal not working at junction","Traffic","MVP","2026-10-14 07:55","PROGRESS","Traffic Team","-"
+1016,"Fire emergency","Fire reported near market","Emergency","Gajuwaka","2026-10-14 07:30","SOLVED","Fire Service","2026-10-14 16:03"
+1022,"Electricity","The Electricity is not coming from morning","Electricity","Vijayawada","2026-10-14 16:01","NEW","Not assigned","-"

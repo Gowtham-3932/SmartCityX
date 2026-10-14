@@ -1,0 +1,50 @@
+SMARTCITYX TEST CASES
+
+1. Citizen report
+Input: title=Water leakage, category=Water, location=MVP
+Expected: new SCX ID, status NEW, row appended to data/problems.csv
+
+2. Persistence
+Action: add a problem, exit, restart.
+Expected: the submitted problem still appears in View All Problems.
+
+3. Status update
+Input: SCX-1021, status 3, team Water Maintenance Team, blank solved time.
+Expected: status SOLVED, timestamp filled with current time, CSV updated.
+
+4. KMP/Rabin-Karp
+Text: "water pipeline leakage"; pattern: "leakage".
+Expected: match true.
+
+5. Aho-Corasick
+Text: "fire accident near water pipeline".
+Keywords: fire, accident, water.
+Expected: all three keywords detected.
+
+6. Edit distance
+Input: pothol; candidate pothole.
+Expected: distance 1.
+
+7. Suffix Array/LCP
+Input: banana.
+Expected: longest repeated substring "ana".
+
+8. Max flow
+Network: 0->1 capacity 7.
+Expected: Edmonds-Karp=7 and Dinic=7.
+
+9. Bipartite matching
+Adjacency: {{true,false},{false,true}}.
+Expected: matching size 2.
+
+10. 3-SAT
+One variable, clause {x OR x OR x}.
+Expected: satisfiable.
+
+11. Randomized QuickSort
+Input: [4,1,3,2].
+Expected sorted: [1,2,3,4].
+
+12. Miller-Rabin
+Input: 104729.
+Expected: prime=true.
