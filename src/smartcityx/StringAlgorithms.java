@@ -73,7 +73,7 @@ public final class StringAlgorithms {
         }
         Node root = new Node();
         for (String word : keywords) {
-            if (word == null || word.isBlank()) continue;
+            if (word == null || word.trim().isEmpty()) continue;
             Node cur = root;
             String w = word.toLowerCase(Locale.ROOT);
             for (char c : w.toCharArray()) cur = cur.next.computeIfAbsent(c, k -> new Node());

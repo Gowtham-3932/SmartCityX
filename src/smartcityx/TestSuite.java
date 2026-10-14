@@ -5,11 +5,15 @@ import java.util.*;
 public final class TestSuite {
     private TestSuite() {}
 
+    public static void main(String[] args) {
+        runAll();
+    }
+
     public static void runAll() {
         int passed = 0, total = 0;
         total++; if (StringAlgorithms.kmpContains("water pipeline leakage", "leakage")) passed++; else fail("KMP");
         total++; if (StringAlgorithms.rabinKarpContains("street light failure", "light")) passed++; else fail("Rabin-Karp");
-        total++; if (StringAlgorithms.ahoCorasick("fire accident", List.of("fire", "accident")).size() == 2) passed++; else fail("Aho-Corasick");
+        total++; if (StringAlgorithms.ahoCorasick("fire accident", Arrays.asList("fire", "accident")).size() == 2) passed++; else fail("Aho-Corasick");
         total++; if (DPAlgorithms.editDistance("pothol", "pothole") == 1) passed++; else fail("Edit distance");
         total++; if (DPAlgorithms.damerauLevenshtein("waetr", "water") == 1) passed++; else fail("Damerau-Levenshtein");
         total++; if (SuffixAlgorithms.longestRepeatedSubstring("banana").equals("ana")) passed++; else fail("Suffix/LCP");

@@ -1,7 +1,7 @@
 package smartcityx;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -13,7 +13,7 @@ public class SmartCityX {
 
     public static void main(String[] args) {
         try {
-            Path dataPath = args.length > 0 ? Path.of(args[0]) : Path.of("data", "problems.csv");
+            Path dataPath = args.length > 0 ? Paths.get(args[0]) : Paths.get("data", "problems.csv");
             repo = new ProblemRepository(dataPath);
             System.out.println("SmartCityX data file: " + dataPath.toAbsolutePath());
             runMenu();
@@ -48,23 +48,28 @@ public class SmartCityX {
             int choice = readInt("Enter choice: ");
             try {
                 switch (choice) {
-                    case 1 -> reportProblem();
-                    case 2 -> dashboard();
-                    case 3 -> viewAll();
-                    case 4 -> updateStatus();
-                    case 5 -> searchProblems();
-                    case 6 -> emergencyKeywords();
-                    case 7 -> similarReports();
-                    case 8 -> correctQuery();
-                    case 9 -> resourceSelection();
-                    case 10 -> flowDemo();
-                    case 11 -> approximationDemo();
-                    case 12 -> randomizedParallelDemo();
-                    case 13 -> searchLocation();
-                    case 14 -> searchCategory();
-                    case 15 -> TestSuite.runAll();
-                    case 0 -> { repo.save(); System.out.println("Data saved. Goodbye from SmartCityX!"); return; }
-                    default -> System.out.println("Invalid menu choice.");
+                    case 1: reportProblem(); break;
+                    case 2: dashboard(); break;
+                    case 3: viewAll(); break;
+                    case 4: updateStatus(); break;
+                    case 5: searchProblems(); break;
+                    case 6: emergencyKeywords(); break;
+                    case 7: similarReports(); break;
+                    case 8: correctQuery(); break;
+                    case 9: resourceSelection(); break;
+                    case 10: flowDemo(); break;
+                    case 11: approximationDemo(); break;
+                    case 12: randomizedParallelDemo(); break;
+                    case 13: searchLocation(); break;
+                    case 14: searchCategory(); break;
+                    case 15: TestSuite.runAll(); break;
+                    case 0:
+                        repo.save();
+                        System.out.println("Data saved. Goodbye from SmartCityX!");
+                        return;
+                    default:
+                        System.out.println("Invalid menu choice.");
+                        break;
                 }
             } catch (IOException | IllegalArgumentException e) {
                 System.out.println("Operation failed: " + e.getMessage());
@@ -97,7 +102,7 @@ public class SmartCityX {
         String desc = readLine("Description: ");
         String category = readLine("Category (Roads/Water/Electricity/Garbage/Traffic/Emergency/Other): ");
         String location = readLine("City/area location: ");
-        if (title.isBlank() || category.isBlank() || location.isBlank()) {
+        if (title.trim().isEmpty() || category.trim().isEmpty() || location.trim().isEmpty()) {
             System.out.println("Title, category, and location are required."); return;
         }
         Problem p = repo.add(title, desc, category, location, now());
@@ -141,18 +146,24 @@ public class SmartCityX {
         System.out.println(p.displayLine());
         System.out.println("1. NEW  2. PROGRESS  3. SOLVED");
         int c = readInt("Select status: ");
-        String status = switch (c) { case 1 -> "NEW"; case 2 -> "PROGRESS"; case 3 -> "SOLVED"; default -> ""; };
+        String status;
+        switch (c) {
+            case 1: status = "NEW"; break;
+            case 2: status = "PROGRESS"; break;
+            case 3: status = "SOLVED"; break;
+            default: status = ""; break;
+        }
         if (status.isEmpty()) { System.out.println("Invalid status."); return; }
         String team = readLine("Assigned/resolving team (or leave blank to keep current): ");
         String solved = status.equals("SOLVED") ? readLine("Solved time (blank = current time): ") : "-";
-        if (solved.isBlank() && status.equals("SOLVED")) solved = now();
+        if (solved.trim().isEmpty() && status.equals("SOLVED")) solved = now();
         repo.updateStatus(p.getId(), status, team, solved);
         System.out.println("Updated SCX-" + p.getId() + " to " + status + ". CSV saved.");
     }
 
     private static void searchProblems() {
         String key = readLine("Enter search keyword: ");
-        if (key.isBlank()) { System.out.println("Keyword cannot be blank."); return; }
+        if (key.trim().isEmpty()) { System.out.println("Keyword cannot be blank."); return; }
         int count = 0;
         for (Problem p : repo.all()) {
             String text = p.getSearchableText();
@@ -168,7 +179,7 @@ public class SmartCityX {
     private static void emergencyKeywords() {
         String report = readLine("Enter report text: ");
         Set<String> words = StringAlgorithms.ahoCorasick(report,
-                List.of("fire", "flood", "accident", "leakage", "emergency", "danger",
+                Arrays.asList("fire", "flood", "accident", "leakage", "emergency", "danger",
                         "electricity", "gas leak", "water overflow", "road blocked"));
         if (words.isEmpty()) System.out.println("No configured emergency keywords detected.");
         else System.out.println("Detected keywords: " + words);
@@ -189,7 +200,7 @@ public class SmartCityX {
 
     private static void correctQuery() {
         String query = readLine("Enter possibly misspelled keyword: ");
-        List<String> dictionary = List.of("water", "leakage", "pothole", "road", "traffic", "garbage",
+        List<String> dictionary = Arrays.asList("water", "leakage", "pothole", "road", "traffic", "garbage",
                 "electricity", "emergency", "fire", "flood", "drainage", "streetlight", "accident");
         String best = ""; int distance = Integer.MAX_VALUE;
         for (String word : dictionary) {
@@ -243,7 +254,7 @@ public class SmartCityX {
         System.out.println("Randomized QuickSort priorities: " + Arrays.toString(priorities));
         System.out.println("Reservoir sample of report IDs: "
                 + RandomizedParallelAlgorithms.reservoirSample(
-                        repo.all().stream().map(p -> "SCX-" + p.getId()).toList(), 3, new Random(42)));
+                        repo.all().stream().map(p -> "SCX-" + p.getId()).collect(java.util.stream.Collectors.toList()), 3, new Random(42)));
         int[] measurements = {12, 4, 7, 3, 9};
         System.out.println("Inclusive scan: " + Arrays.toString(RandomizedParallelAlgorithms.inclusiveScan(measurements)));
         System.out.println("Parallel reduce {sum,min,max}: "

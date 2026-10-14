@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
-public class ProblemRepository {
+public final class ProblemRepository {
     private final Path file;
     private final List<Problem> problems = new ArrayList<>();
     private int nextId = 1021;
@@ -42,7 +42,7 @@ public class ProblemRepository {
         Problem p = findById(id);
         if (p == null) return false;
         p.setStatus(status);
-        if (team != null && !team.isBlank()) p.setAssignedTeam(team);
+        if (team != null && !team.trim().isEmpty()) p.setAssignedTeam(team);
         if ("SOLVED".equals(status)) p.setSolvedAt(solvedAt == null ? "" : solvedAt);
         else p.setSolvedAt("-");
         save();
@@ -60,7 +60,7 @@ public class ProblemRepository {
     private void load() throws IOException {
         List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
         for (int i = 1; i < lines.size(); i++) {
-            if (lines.get(i).isBlank()) continue;
+            if (lines.get(i).trim().isEmpty()) continue;
             try { problems.add(Problem.fromCsv(lines.get(i))); }
             catch (RuntimeException ex) {
                 System.err.println("Skipping invalid data row " + (i + 1) + ": " + ex.getMessage());

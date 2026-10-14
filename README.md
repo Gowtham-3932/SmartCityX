@@ -19,32 +19,37 @@ A Java console project demonstrating DSA modules CO1–CO6 through city complain
 
 ## Requirements
 
-- JDK 17 or newer (uses switch expressions and `Stream.toList()`)
-- Eclipse IDE or terminal
+- JDK 8, 11, 17, or 21+
+- Eclipse IDE, VS Code / Antigravity IDE, or command prompt
+
+## Run with Batch Scripts (Windows)
+
+Simply double-click or run from command prompt:
+
+```cmd
+build.bat    REM Compiles all source files cleanly into bin/
+run.bat      REM Executes SmartCityX
+```
 
 ## Run in Eclipse
 
-1. Create a Java project named `SmartCityX`.
-2. Use JDK 17 or newer.
-3. Create package `smartcityx` under `src`.
-4. Copy all `.java` files from `src/smartcityx/` into that package.
-5. In project root, create a folder named `data` (the application also creates it if needed).
-6. Run `SmartCityX.java` as **Java Application**.
-7. The CSV is saved to `data/problems.csv`, relative to the Eclipse working directory.
+1. Import as an Existing Java Project (`File > Open Projects from File System...` -> select `SmartCityX`).
+2. Run [`SmartCityX.java`](file:///src/smartcityx/SmartCityX.java) or [`TestSuite.java`](file:///src/smartcityx/TestSuite.java) as **Java Application**.
+3. Data is automatically maintained in `data/problems.csv`.
 
 ## Run from terminal
 
 From the project root:
 
 ```bash
-javac -d out src/smartcityx/*.java
-java -cp out smartcityx.SmartCityX
+javac -d bin src/smartcityx/*.java
+java -cp bin smartcityx.SmartCityX
 ```
 
-To select a different CSV path:
+Or to run the automated algorithm test suite directly:
 
 ```bash
-java -cp out smartcityx.SmartCityX data/problems.csv
+java -cp bin smartcityx.TestSuite
 ```
 
 ## Example output
